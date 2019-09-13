@@ -25,21 +25,6 @@ static void print_node(xmlNode *node) {
   }
 }
 
-static void find_node(xmlNode *node, const xmlChar * nodename) {
-  xmlNode *current_node = NULL;
-
-  for (current_node = node; current_node; current_node = current_node->next) {
-    if (current_node->type == XML_ELEMENT_NODE) {
-      if (xmlStrEqual(current_node->name, nodename)) {
-        print_element(current_node);
-        print_node(current_node->children);
-      } else {
-        find_node(current_node->children, nodename);
-      }
-    }
-  }
-}
-
 void run_query(const char * query, xmlDocPtr document) {
     xmlXPathInit();
     xmlXPathContextPtr ctxt;
@@ -71,33 +56,18 @@ void run_query(const char * query, xmlDocPtr document) {
 
 int main(int argc, char **argv) {
 
-    LIBXML_TEST_VERSION;
+  LIBXML_TEST_VERSION;
 
-    if (argv[2] == NULL) {
-      /* Parse the whole document */
-      xmlDoc *document = NULL;
-      xmlNode *root_element = NULL;
-      
-      document = xmlReadFile(argv[1], NULL, 0);
-      root_element = xmlDocGetRootElement(document);
-      
-      find_node(root_element, (xmlChar *)"RPB");
+  xmlXPathInit();
 
-      xmlFreeDoc(document);
-      xmlCleanupParser();
-    } else {
-      /* Use XPath */
-      xmlXPathInit();
+  xmlDocPtr document;
 
-      xmlDocPtr document;
+  document = xmlParseFile(argv[1]);
 
-      document = xmlParseFile(argv[1]);
-
-      run_query(argv[2], document);
-      
-      xmlFreeDoc(document);
-    }
-    
-    return EXIT_SUCCESS;
+  run_query(argv[2], document);
+  
+  xmlFreeDoc(document);
+  
+  return EXIT_SUCCESS;
 }
 
