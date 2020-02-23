@@ -1,0 +1,9 @@
+name: compiler-world
+channels:
+  - conda-forge
+dependencies:
+  - compilers
+  - cython
+  - llvm-openmp
+  - python
+
