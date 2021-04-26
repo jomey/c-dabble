@@ -1,0 +1,57 @@
+static variables or functions
+ -> not accessible outside of the file
+
+register variables
+ -> indicate compiler for heavy usage
+
+Initialization
+ external and static variables guaranteed to be 0
+ regiser and automatic variables have garbage values
+ array have length of initializer when omitted
+   not initialized values in an array are 0
+   char pattern = "value" is shorthand for char pattern[] = ["v", "a", "l", "u", "e"]
+ 
+Prepocessor
+  #include "" looks for file at current level
+  #include <> looks for implementation dependent-defined rule
+  #define macros can be values and functions
+    There are some rules with expansion to quoted strings (#) 
+    and concatenation of parameters (##)
+  #if ... #endif for conditional in preprocessor
+    defined() to check for existance of macro
+    #ifdef and #ifndef can also check for existance
+    clause must evaluate constant integer expression
+
+Pointers
+  int *p says that the expression *p is an int
+  with int *p = &x, then *ip can be used anywhere x is used
+  pointers to two variables can copy their values they point to without de-referencing
+    p1 = p2 -> assigns value of where p2 points at to the variable where p1 points to
+  when pa points to a[0], then *(pa+i) will return content of a[i]
+
+Arrays
+  a[0] will return a pointer
+  a[i] is converted to *(a+i)
+  &a[0] will return the value at a[0]
+  with pointer pa, then pa[i] is converted to *(pa+i) and equivalent to pa+i
+  when an array name is passed to a function, 
+    then a local copy to the initial element address is given,
+    which makes it a pointer
+  char s[] and char *s are equivalent, latter is preferred
+
+Address Arithmetic
+  alloc(n) - returns pointer to n consecutive character positions
+  afree(p) - release the storage
+  returning 0 as value for a pointer indicates abnormal event
+    NULL is preferred over 0
+  If two pointers are members of the same array, then relations work (==, <. !=, etc)
+  difference between two pointers (p,s) can indicate string length: p - s
+
+Character pointers and Functions
+  printf("String") -> printf receives a character pointer to the first element of "String"
+  char var[] = "String" -> returns array that can modify it's values
+  char *var = "String" -> returns pointer that can be modified, but not the String value
+  *s++ = *t++ -> copy value of s to t and increment after the value is fetched
+  *p++ = val -> push value to a stack
+  val = *--p -> pop value from a stack
+
